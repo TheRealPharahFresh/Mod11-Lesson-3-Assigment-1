@@ -1,15 +1,18 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import CharacterList from './CharacterList';
-import CharacterDetail from './CharacterDetail';
+import { Route, Routes } from "react-router-dom";
+import CharacterList from './Components/CharacterList';
+import CharacterDetail from './Components/CharacterDetail';
+import NavigationBar from "./Components/NavigationBar";
 
 function App() {
   return (
-    <Router>
+    <div className='app-container'>
+      <NavigationBar/>
       <Routes>
         <Route path="/" element={<CharacterList />} />
-        <Route path="/character/:characterId" element={<CharacterDetail />} /> {/* Character detail route */}
+        <Route path="/character/:characterId" element={<CharacterDetail />} /> 
       </Routes>
-    </Router>
+    </div>
+        
   );
 }
 
