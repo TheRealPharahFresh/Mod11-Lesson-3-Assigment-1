@@ -9,8 +9,8 @@ const MARVEL_API_URL = "https://gateway.marvel.com/v1/public/characters";
 
 const CharacterDetail = () => {
   const { characterId } = useParams(); 
-  const [details, setDetails] = useState([]); 
-  const [error, setError] = useState(null); 
+  const [details, setDetails] = useState(null); 
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -22,6 +22,8 @@ const CharacterDetail = () => {
             hash: 'd7c624a0e64184c58f1f1434b9c776f4',
           },
         });
+
+
         setDetails(response.data.data.results[0]);
       } catch (error) {
         console.error('Failed to fetch character details:', error);
@@ -38,16 +40,27 @@ const CharacterDetail = () => {
     return <p style={{ color: "red" }}>{error}</p>;
   }
 
+  if (!details) {
+    return <p>Loading character details...</p>;
+  }
+
   return (
     <div>
-      {details ? (
-        <>
-          <h3>{details.name}</h3>
-          <img src={`${details.thumbnail.path}.${details.thumbnail.extension}`} alt={details.name} />
-          <p>{details.description || "No description available."}</p>
-        </>
+      <h3>{details.name}</h3>
+      <img 
+        src={`${details.thumbnail.path}.${details.thumbnail.extension}`} 
+        alt={details.name} 
+      />
+      <p>{details.description || "No description available."}</p>
+      <h4>Comics:</h4>
+      {details.comics.items.length > 0 ? (
+        <ul>
+          {details.comics.items.map((comic, index) => (
+            <li key={index}>{comic.name}</li>
+          ))}
+        </ul>
       ) : (
-        <p>Loading character details...</p>
+        <p>No comics available.</p>
       )}
     </div>
   );

@@ -7,7 +7,7 @@ const MARVEL_API_URL = "https://gateway.marvel.com/v1/public/characters?ts=1&api
 const CharacterList = () => {
     const [characters, setCharacters] = useState([]);
     const [error, setError] = useState(null);
-    const navigate = useNavigate(); // 
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch(MARVEL_API_URL)
@@ -32,11 +32,16 @@ const CharacterList = () => {
             {error && <p style={{ color: "red" }}>{error}</p>}
 
             <ul>
-                {characters.map((char) => (
-                    <li key={char.id} onClick={() => navigate(`/character/${char.id}`)}> 
-                        <h3>{char.name}</h3>
-                    </li>
-                ))}
+                {characters.length > 0 ? (
+                    characters.map((char) => (
+                        <li key={char.id} onClick={() => navigate(`/character/${char.id}`)}>
+                            <h3>{char.name}</h3>
+                            <img src={`${char.thumbnail.path}.${char.thumbnail.extension}`} alt={char.name} />
+                        </li>
+                    ))
+                ) : (
+                    <p>Loading characters...</p>
+                )}
             </ul>
         </div>
     );
@@ -47,5 +52,6 @@ CharacterList.propTypes = {
 };
 
 export default CharacterList;
+
 
 
